@@ -1,0 +1,34 @@
+<?php $_sourceCollection = $this->getSelectOptions(); ?>
+<div class="admin__page-section-title">
+    <span class="title"><?php echo __('Order Information'); ?></span>
+    <div class="actions"></div>
+</div>
+<div id="ordersource_fields" class="admin__page-section-content">
+    <div class="admin__field field field-source">
+        <label class="label admin__field-label"><span><?php echo __('Order Source') ?></span></label>
+        <div class="admin__field-control control">
+            <?php if(count($_sourceCollection) === 1):?>
+                    <?php foreach($_sourceCollection as $_source): ?>
+                        <?php if(isset($_source['value']) && isset($_source['label'])):?>
+                            <input type="hidden" name="ordersource" value="<?php echo $_source['value']?>" />
+                            <p><?php echo $_source['label']?></p>
+                        <?php endif?>
+                    <?php endforeach ?>
+            <?php else:?>
+                <select name="ordersource" class="select required-entry admin__control-select validate-select">
+                    <?php foreach($_sourceCollection as $_source): ?>
+                        <?php if(isset($_source['value']) && isset($_source['label'])):?>
+                            <option value="<?php echo $_source['value']?>"<?php echo ($this->getDefaultSource() == $_source['value']) ? ' selected="selected"' : ''?>><?php echo $_source['label']?></option>
+                        <?php endif?>
+                    <?php endforeach ?>
+                </select>
+            <?php endif?>
+        </div>
+    </div>
+</div>
+
+<script>
+    require(["prototype", "Magento_Sales/order/create/form"], function(){
+        order.accountFieldsBind($('ordersource_fields'));
+    });
+</script>

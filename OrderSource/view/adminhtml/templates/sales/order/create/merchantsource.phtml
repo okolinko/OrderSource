@@ -1,0 +1,31 @@
+<?php $_sourceCollection = $this->getSelectOptions(); ?>
+
+<div id="merchantsource_fields" class="admin__page-section-content">
+    <div class="admin__field field field-source">
+        <label class="label admin__field-label"><span><?php echo __('Merchant Source') ?></span></label>
+        <div class="admin__field-control control">
+            <?php if(count($_sourceCollection) === 1):?>
+                    <?php foreach($_sourceCollection as $merchantsource): ?>
+                        <?php if(isset($merchantsource['value']) && isset($merchantsource['label'])):?>
+                            <input type="hidden" name="merchantsource" value="<?php echo $merchantsource['value']?>" />
+                            <p><?php echo $merchantsource['label']?></p>
+                        <?php endif?>
+                    <?php endforeach ?>
+            <?php else:?>
+                <select name="merchantsource" class="select required-entry admin__control-select validate-select">
+                    <?php foreach($_sourceCollection as $merchantsource): ?>
+                        <?php if(isset($merchantsource['value']) && isset($merchantsource['label'])):?>
+                            <option value="<?php echo $merchantsource['value']?>"<?php echo ($this->getDefaultSource() == $merchantsource['value']) ? ' selected="selected"' : ''?>><?php echo $merchantsource['label']?></option>
+                        <?php endif?>
+                    <?php endforeach ?>
+                </select>
+            <?php endif?>
+        </div>
+    </div>
+</div>
+
+<script>
+    require(["prototype", "Magento_Sales/order/create/form"], function(){
+        order.accountFieldsBind($('merchantsource_fields'));
+    });
+</script>
